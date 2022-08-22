@@ -1,0 +1,133 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+
+int main(){
+	
+	int i, j,firelin,firecol,chances;
+	int matrizA[3][3];
+	char matrizB[3][3];
+	//int matrizC[3][3];
+	int lin = 0;
+	int col = 0;
+  	int navios= 0;
+  	int acertos = 0;	
+	
+	printf("Digite o numero de linhas para iniciar o  jogo: ");
+	scanf("%d",&lin);
+	
+	printf("Digite o numero de colunas para iniciar o  jogo: ");
+	scanf("%d",&col);
+
+	
+	int elementos = lin*col;
+
+	if(elementos == 1){
+		chances = 0;
+	}
+	if(elementos <= 2){
+		chances = 1;
+	}else{
+		chances = (elementos)/4;
+	}
+	
+	printf("\nVOCE TEM %d CHANCES PARA INICIAR O JOGO\n",chances);
+	
+	//CRIANDO MATRIZ COM VALORES ALEATORIOS
+	for(i=0;i<lin;i++){
+		for(j=0;j<col;j++){
+			matrizA [i][j]= rand()%100;
+		}
+	}	
+	printf("\n");
+
+  	//IMPRIMIR MATRIZ  
+	for(i=0;i<lin;i++){
+		for(j=0;j<col;j++){
+			printf("[ %2d ]",matrizA[i][j]);
+		}
+		printf("\n");
+	}	
+	printf("\n");
+ 
+  
+  	//TROCAR VALORES IMPARES E PARES POR 0 E 1
+	for(i=0;i<lin;i++){
+		for(j=0;j<col;j++){
+			if(matrizA[i][j]%2 == 0){
+				matrizA[i][j] = 0;
+			}else{
+				matrizA[i][j] = 1;
+			}
+			printf("[ %d ]",matrizA[i][j]);
+		}
+		printf("\n");
+	}	
+	printf("\n");
+
+  
+  	for(i=0;i<lin;i++){
+		for(j=0;j<col;j++){
+			matrizB[i][j] =  '~';
+			printf("[ %c ]",matrizB[i][j]);
+		}
+		printf("\n");
+	}	
+  	
+  	printf("\n");
+  
+	//Contar quantos navios existem na matriz
+  	for(i=0;i<lin;i++){
+		for(j=0;j<col;j++){
+			if(matrizA[i][j] == 1){
+				navios += matrizA[i][j];
+			}			
+		}
+	}
+	printf("[ %d ] navios \n",navios);
+	printf("\n");
+
+  
+
+  //INTERAÇÃO COM O USUARIO
+  
+  while(chances > 0 || navios > 0){
+  //while(navios > 0){
+		printf("Digite o numero da LINHA para mirar o alvo: ");
+		scanf("%d",&firelin);
+		printf("Digite o numero da COLUNA para atirar no alvo: ");
+		scanf("%d",&firecol);
+    	printf("Missil disparado em rota de colisao com o alvo definido!\n");
+
+      if( matrizA[firelin][firecol] == 1){
+          navios -= 1;
+          matrizB[firelin][firecol] = 'x';
+          printf("FOGO!!! VOCE ACERTOU EM CHEIO!\n");
+          printf("VOCE TEM %d CHANCES!\n", chances);
+          //ImprimirMatB(matrizB,lin,col);	
+      	
+      	printf("\n");
+          
+      }
+	  else{
+          chances -= 1;
+          matrizB[firelin][firecol] = '@';
+          printf("AGUA!!! NAO FOI DESTA VEZ, VOCE ERROU!\n");
+	    	printf("VOCE AINDA TEM %d CHANCES!\n",chances);	        
+	        //ImprimirMatB(matrizB,lin,col);
+	      	printf("\n"); 
+      }
+    }
+   
+	if(chances == 0){
+      printf("VOCE ZEROU AS SUAS CHANCES E PERDEU ESTE JOGO\n");
+    }if(navios == 0){
+      printf("PARABENS VOCE VENCEU ESTE JOGO\n");
+    }
+	
+	
+	
+	return 0;
+    
+}
